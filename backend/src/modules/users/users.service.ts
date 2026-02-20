@@ -43,4 +43,50 @@ export class UsersService {
   async findOne(id: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ where: { id } });
   }
+
+  async seed() {
+    const users = [
+      {
+        email: 'admin@sistema.com',
+        password: 'admin123',
+        role: UserRole.ADMIN,
+        employee: { name: 'Administrador', matricula: '001', sector: 'TI', hourly_rate: 50 },
+      },
+      {
+        email: 'gestor@sistema.com',
+        password: 'gestor123',
+        role: UserRole.MANAGER,
+        employee: { name: 'Gestor de Operações', matricula: '002', sector: 'Operações', hourly_rate: 40 },
+      },
+      {
+        email: 'func@sistema.com',
+        password: 'func123',
+        role: UserRole.EMPLOYEE,
+        employee: { name: 'João Silva', matricula: '101', sector: 'Produção', hourly_rate: 20 },
+      },
+      {
+        email: 'restaurante@sistema.com',
+        password: 'restaurante123',
+        role: UserRole.RESTAURANT,
+        employee: { name: 'Cozinha Central', matricula: '901', sector: 'Alimentação', hourly_rate: 0 },
+      },
+    ];
+
+    const results = [];
+
+    for (const u of users) {
+      const existing = await this.findByEmail(u.email);
+      if (!existing) {
+        const savedUser = await this.create(
+          { email: u.email, password_hash: u.password, role: u.role },
+          u.employee,
+        );
+        results.push({ email: u.email, status: 'created' });
+      } else {
+        results.push({ email: u.email, status: 'already exists' });
+      }
+    }
+
+    return results;
+  }
 }
