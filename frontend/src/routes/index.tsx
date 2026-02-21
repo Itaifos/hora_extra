@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import LoginPage from '../pages/Login';
 import Layout from '../components/Layout';
+import Dashboard from '../pages/Dashboard';
+import RestaurantPDV from '../pages/RestaurantPDV';
 
 const AppRoutes: React.FC = () => {
   const { user, loading } = useAuth();
@@ -21,10 +23,10 @@ const AppRoutes: React.FC = () => {
       
       {/* Private Routes */}
       <Route element={user ? <Layout /> : <Navigate to="/login" />}>
-        <Route path="/" element={<div>Dashboard: Bem-vindo, {user?.role}!</div>} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/minhas-horas" element={<div>Minhas Horas (Em breve)</div>} />
         <Route path="/consumo" element={<div>Histórico de Consumo (Em breve)</div>} />
-        <Route path="/restaurante/venda" element={<div>PDV Restaurante (Em breve)</div>} />
+        <Route path="/restaurante/venda" element={<RestaurantPDV />} />
         <Route path="/gestao/equipe" element={<div>Gestão de Equipe (Em breve)</div>} />
         <Route path="/admin/config" element={<div>Configurações do Sistema (Em breve)</div>} />
       </Route>

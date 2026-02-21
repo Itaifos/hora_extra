@@ -44,6 +44,19 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { id } });
   }
 
+  async findEmployeeByUserId(userId: string): Promise<Employee | undefined> {
+    return this.employeesRepository.findOne({
+      where: { user_id: userId },
+      relations: ['user'],
+    });
+  }
+
+  async findEmployeeByMatricula(matricula: string): Promise<Employee | undefined> {
+    return this.employeesRepository.findOne({
+      where: { matricula },
+    });
+  }
+
   async seed() {
     const users = [
       {

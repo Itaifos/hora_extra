@@ -19,11 +19,9 @@ export class OvertimeController {
   @Get('my')
   @Roles(UserRole.EMPLOYEE)
   async getMyOvertime(@Request() req) {
-    // We need a way to link User to Employee ID
-    // For now, I'll assume req.user has employeeId if we added it to JWT, 
-    // or we query it here. Let's assume we need to query the employee linked to the user.
-    // I'll keep it simple for now and expect employee_id in query or from user object.
-    return this.overtimeService.findByEmployee(req.user.userId); // This logic needs to be refined to use Employee ID
+    // First, find the employee associated with this user
+    // We could optimize this by adding employeeId to the JWT payload later
+    return this.overtimeService.findByUser(req.user.userId);
   }
 
   @Get('pending')

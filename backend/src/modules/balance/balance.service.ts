@@ -26,6 +26,18 @@ export class BalanceService {
     });
   }
 
+  async getBalanceByUser(userId: string): Promise<number> {
+    const employee = await this.dataSource.getRepository('employees').findOne({ where: { user_id: userId } });
+    if (!employee) return 0;
+    return this.getBalance(employee.id);
+  }
+
+  async getHistoryByUser(userId: string) {
+    const employee = await this.dataSource.getRepository('employees').findOne({ where: { user_id: userId } });
+    if (!employee) return [];
+    return this.getHistory(employee.id);
+  }
+
   async addCredit(employeeId: string, amount: number, description: string, referenceDate: Date) {
     return this.dataSource.transaction(async (manager) => {
       let balance = await manager.findOne(Balance, { where: { employee_id: employeeId } });

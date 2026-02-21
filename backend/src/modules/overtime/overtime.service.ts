@@ -46,6 +46,12 @@ export class OvertimeService {
     });
   }
 
+  async findByUser(userId: string) {
+    const employee = await this.employeeRepository.findOne({ where: { user_id: userId } });
+    if (!employee) return [];
+    return this.findByEmployee(employee.id);
+  }
+
   calculateBenefitValue(hours: number, hourlyRate: number): number {
     const rate = hours > 2 ? 1.0 : 0.5;
     return Number((hours * hourlyRate * rate).toFixed(2));

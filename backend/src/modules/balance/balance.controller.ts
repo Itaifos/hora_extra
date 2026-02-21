@@ -13,14 +13,13 @@ export class BalanceController {
   @Get('my')
   @Roles(UserRole.EMPLOYEE)
   async getMyBalance(@Request() req) {
-    // Needs linking User to Employee
-    return this.balanceService.getBalance(req.user.userId);
+    return this.balanceService.getBalanceByUser(req.user.userId);
   }
 
   @Get('history/my')
   @Roles(UserRole.EMPLOYEE)
   async getMyHistory(@Request() req) {
-    return this.balanceService.getHistory(req.user.userId);
+    return this.balanceService.getHistoryByUser(req.user.userId);
   }
 
   @Post('debit')

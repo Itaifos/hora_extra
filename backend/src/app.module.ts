@@ -7,6 +7,8 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { OvertimeModule } from './modules/overtime/overtime.module';
 import { BalanceModule } from './modules/balance/balance.module';
+import { EmployeesController } from './modules/employees/employees.controller';
+import { EmployeesModule } from './modules/employees/employees.module';
 
 @Module({
   imports: [
@@ -31,8 +33,9 @@ import { BalanceModule } from './modules/balance/balance.module';
     AuthModule,
     OvertimeModule,
     BalanceModule,
+    EmployeesModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, EmployeesController],
   providers: [AppService],
 })
 export class AppModule {}
