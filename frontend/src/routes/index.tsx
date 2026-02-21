@@ -9,6 +9,7 @@ import MyOvertimePage from '../pages/MyOvertime';
 import RegisterOvertimePage from '../pages/RegisterOvertime';
 import TeamViewPage from '../pages/TeamView';
 import AdminProcessingPage from '../pages/AdminProcessing';
+import ConsumptionHistoryPage from '../pages/ConsumptionHistory';
 
 const AppRoutes: React.FC = () => {
   const { user, loading } = useAuth();
@@ -29,7 +30,7 @@ const AppRoutes: React.FC = () => {
       <Route element={user ? <Layout /> : <Navigate to="/login" />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/minhas-horas" element={<MyOvertimePage />} />
-        <Route path="/consumo" element={<div>Histórico de Consumo (Em breve)</div>} />
+        <Route path="/consumo" element={<ConsumptionHistoryPage />} />
         <Route path="/restaurante/venda" element={<RestaurantPDV />} />
         <Route path="/gestao/registrar-horas" element={<RegisterOvertimePage />} />
         <Route path="/gestao/equipe" element={<TeamViewPage />} />
