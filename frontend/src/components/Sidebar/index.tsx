@@ -9,7 +9,8 @@ import {
   Users, 
   Settings, 
   LogOut,
-  History
+  History,
+  PlusCircle
 } from 'lucide-react';
 
 const Sidebar: React.FC = () => {
@@ -45,6 +46,12 @@ const Sidebar: React.FC = () => {
     },
     
     // Manager / Admin
+    { 
+      title: 'Registrar Horas',
+      path: '/gestao/registrar-horas',
+      icon: <PlusCircle size={20} />,
+      roles: [UserRole.MANAGER, UserRole.ADMIN]
+    },
     { 
       title: 'Equipe', 
       path: '/gestao/equipe', 
