@@ -10,7 +10,8 @@ import {
   Settings, 
   LogOut,
   History,
-  PlusCircle
+  PlusCircle,
+  Play
 } from 'lucide-react';
 
 const Sidebar: React.FC = () => {
@@ -63,6 +64,12 @@ const Sidebar: React.FC = () => {
       path: '/admin/config', 
       icon: <Settings size={20} />, 
       roles: [UserRole.ADMIN] 
+    },
+    { 
+      title: 'Processar Horas',
+      path: '/admin/processar',
+      icon: <Play size={20} />,
+      roles: [UserRole.ADMIN]
     },
   ];
 

@@ -9,6 +9,8 @@ import { OvertimeModule } from './modules/overtime/overtime.module';
 import { BalanceModule } from './modules/balance/balance.module';
 import { EmployeesController } from './modules/employees/employees.controller';
 import { EmployeesModule } from './modules/employees/employees.module';
+import { TeamService } from './modules/team/team.service';
+import { TeamModule } from './modules/team/team.module';
 
 @Module({
   imports: [
@@ -34,8 +36,9 @@ import { EmployeesModule } from './modules/employees/employees.module';
     OvertimeModule,
     BalanceModule,
     EmployeesModule,
+    TeamModule,
   ],
   controllers: [AppController, EmployeesController],
-  providers: [AppService],
+  providers: [AppService, TeamService],
 })
 export class AppModule {}
