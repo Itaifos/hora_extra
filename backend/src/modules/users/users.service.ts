@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -14,7 +14,11 @@ export class UsersService {
     private employeesRepository: Repository<Employee>,
   ) {}
 
-  async create(userData: Partial<User>, employeeData: Partial<Employee>) {
+  async create(userData: Partial<User>, employeeData: Partial<Employee>): Promise<User> {
+    if (!userData.password_hash) {
+      throw new BadRequestException('Password cannot be empty.');
+    }
+
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(userData.password_hash, salt);
 
@@ -33,25 +37,25 @@ export class UsersService {
     return savedUser;
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findByEmail(email: string): Promise<User | null> {
     return this.usersRepository.findOne({
       where: { email },
       select: ['id', 'email', 'password_hash', 'role'],
     });
   }
 
-  async findOne(id: string): Promise<User | undefined> {
+  async findOne(id: string): Promise<User | null> {
     return this.usersRepository.findOne({ where: { id } });
   }
 
-  async findEmployeeByUserId(userId: string): Promise<Employee | undefined> {
+  async findEmployeeByUserId(userId: string): Promise<Employee | null> {
     return this.employeesRepository.findOne({
       where: { user_id: userId },
       relations: ['user'],
     });
   }
 
-  async findEmployeeByMatricula(matricula: string): Promise<Employee | undefined> {
+  async findEmployeeByMatricula(matricula: string): Promise<Employee | null> {
     return this.employeesRepository.findOne({
       where: { matricula },
     });
@@ -85,12 +89,12 @@ export class UsersService {
       },
     ];
 
-    const results = [];
+    const results: { email: string; status: string }[] = [];
 
     for (const u of users) {
       const existing = await this.findByEmail(u.email);
       if (!existing) {
-        const savedUser = await this.create(
+        await this.create(
           { email: u.email, password_hash: u.password, role: u.role },
           u.employee,
         );

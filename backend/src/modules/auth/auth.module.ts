@@ -14,10 +14,25 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: configService.get<string>('JWT_EXPIRES_IN') },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const secret = configService.get<string>('JWT_SECRET');
+        const expiresIn = configService.get<string>('JWT_EXPIRES_IN', '1d'); // Default to '1d'
+
+        if (!secret) {
+          throw new Error('JWT_SECRET is not defined in the environment variables');
+        }
+
+        // Ensure expiresIn is a string that jsonwebtoken can parse (e.g., "1d", "1h", "30m")
+        // The type definition expects `number | StringValue | undefined`.
+        // `StringValue` is typically a type alias for `string` from `jsonwebtoken` itself.
+        // We ensure we're passing a string that meets the expectations.
+        return {
+          secret,
+          signOptions: {
+            expiresIn: expiresIn as string, // Explicitly cast to string, as jsonwebtoken accepts strings like '1d'
+          },
+        };
+      },
     }),
   ],
   controllers: [AuthController],

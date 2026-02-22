@@ -66,7 +66,7 @@ export class OvertimeService {
 
   async processDailyOvertime() {
     const pending = await this.getPendingOvertime();
-    const results = [];
+    const results: { id: string; value: number }[] = [];
 
     for (const record of pending) {
       const value = this.calculateBenefitValue(record.hours, Number(record.employee.hourly_rate));
