@@ -38,7 +38,7 @@ import { TeamModule } from './modules/team/team.module';
     EmployeesModule,
     TeamModule,
   ],
-  controllers: [AppController, EmployeesController],
-  providers: [AppService, TeamService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
