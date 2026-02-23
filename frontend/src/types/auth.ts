@@ -11,7 +11,7 @@ export interface User {
   role: UserRole;
 }
 
-export interface AuthContextData {
+export interface _AuthContextData_Temp {
   user: User | null;
   loading: boolean;
   login: (credentials: object) => Promise<void>;
